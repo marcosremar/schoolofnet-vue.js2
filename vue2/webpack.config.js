@@ -32,11 +32,16 @@ module.exports = {
         }
       },
       {
-        test: '/\.(woff|woff2|ttf|svg|eot)$/',
-        loader: 'url'
+        test: /\.(woff|woff2|ttf|svg|eot)$/,
+        loader: 'url-loader'
       }
     ]
   },
+  plugins: [
+      new webpack.ProvidePlugin({
+        'jQuery': 'jquery'
+      })
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
