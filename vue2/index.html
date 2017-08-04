@@ -5,24 +5,53 @@
     <title>vue2</title>
   </head>
   <body>
-    <div id="app">
-    	<h1>Meus times</h1>
-    	<ul>
-    		<li v-for="(time, index) in times">
-    			{{ index + 1 }} {{ time.nome }}<img :src="time.escudo">
-    		</li>
-    	</ul>
-    	
-    	<!-- <ul>
-    		<li v-for="x in 100">{{ x }}</li>
-    	</ul> -->
-
-    	<ul>
-    		<li v-for="(valor, chave, index) in alfabeto">
-    			{{ index }} - {{ chave }} - {{ valor }}
-    		</li>
-    	</ul>
-
+    <div id="app" class="container">
+        <div class="row">
+            <h3>Campeonato Brasileiro - Série A - 2017</h3>
+            <br /></br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Pontos</th>
+                        <th>GM</th>
+                        <th>GS</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="time in times">
+                        <td>
+                            <img :src="time.escudo" style="height: 30px; width: 30px">
+                        </td>
+                        <td>{{ time.pontos }}</td>
+                        <td>{{ time.gm }}</td>
+                        <td>{{ time.gs }}</td>
+                        <td>saldo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control">
+                    <label class="control-label">
+                        {{novoJogo.casa.time.nome}}    
+                        <img :src="novoJogo.casa.time.escudo" style="height: 30px; width:30px;">
+                    </label>
+                </div>
+                <span>X</span>
+                <div class="form-group">
+                    <label class="control-label">
+                        {{novoJogo.casa.time.nome}}
+                        <img :src="novoJogo.fora.time.escudo" style="height: 30px; width:30px;">
+                    </label>
+                    <input type="text" class="form-control">
+                </div>
+                <button type="button" class="btn btn-primary">Fim de jogo</button>
+            </form>
+        </div>
     </div>
     <script src="/dist/build.js"></script>
   </body>
