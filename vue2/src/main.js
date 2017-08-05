@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 require('style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css');
 require('bootstrap');
-new Vue({
+let meuVue = new Vue({
   el: '#app',
   data: {
   	times: [
@@ -28,7 +28,8 @@ new Vue({
     		c: 'C',
     		d: 'D',
     		e: 'E'
-    	}
+    	},
+      teste: 'outro valor'
   },
   created(){
     let indexCasa = Math.floor(Math.random() * 3); 
@@ -38,5 +39,19 @@ new Vue({
     this.novoJogo.casa.gols = 0;
     this.novoJogo.fora.time = this.times[indexFora];
     this.novoJogo.fora.gols = 0;
+  },
+  methods: {
+    meClicou(event){
+      console.log(event);
+    },
+    fimJogo(){
+      let timeAdversario = this.novoJogo.fora.time;
+      let gols = +this.novoJogo.casa.gols;
+      let golsAdversario = +this.novoJogo.fora.gols;
+      this.novoJogo.casa.time.fimJogo(timeAdversario, gols, golsAdversario);
+    }
   }
-})
+});
+meuVue.teste="esse é um novo valor";
+
+console.log(meuVue.teste);
