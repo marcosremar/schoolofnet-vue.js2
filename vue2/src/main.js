@@ -7,6 +7,12 @@ require('bootstrap');
 let meuVue = new Vue({
   el: '#app',
   data: {
+      order:{
+        keys: ['pontos', 'gm', 'gs'],
+          sort: ['desc', 'desc', 'asc']
+      },
+      filter: '',
+    colunas: ['nome', 'pontos', 'gm', 'gs', 'saldo'],
   	times: [
   		new Time("America Mineiro", require('./assets/america_mg_60x60.png')),
   		new Time("Atletico Paranaense", require('./assets/atletico-pr_60x60.png')),
@@ -22,36 +28,50 @@ let meuVue = new Vue({
           gols:0
         }
       },
-    	alfabeto : {
-    		a: 'A',
-    		b: 'B',
-    		c: 'C',
-    		d: 'D',
-    		e: 'E'
-    	},
-      teste: 'outro valor'
-  },
-  created(){
-    let indexCasa = Math.floor(Math.random() * 3); 
-    let indexFora = Math.floor(Math.random() * 3);
-
-    this.novoJogo.casa.time = this.times[indexCasa];
-    this.novoJogo.casa.gols = 0;
-    this.novoJogo.fora.time = this.times[indexFora];
-    this.novoJogo.fora.gols = 0;
+      view: 'tabela'
   },
   methods: {
-    meClicou(event){
-      console.log(event);
-    },
     fimJogo(){
       let timeAdversario = this.novoJogo.fora.time;
       let gols = +this.novoJogo.casa.gols;
       let golsAdversario = +this.novoJogo.fora.gols;
       this.novoJogo.casa.time.fimJogo(timeAdversario, gols, golsAdversario);
-    }
-  }
-});
-meuVue.teste="esse é um novo valor";
+      this.showView('tabela');
+    },
+      createNovoJogo(){
+          let indexCasa = Math.floor(Math.random() * 3);
+          let indexFora = Math.floor(Math.random() * 3);
 
-console.log(meuVue.teste);
+          this.novoJogo.casa.time = this.times[indexCasa];
+          this.novoJogo.casa.gols = 0;
+          this.novoJogo.fora.time = this.times[indexFora];
+          this.novoJogo.fora.gols = 0;
+          this.showView('novojogo');
+      },
+      showView(view){
+          this.view = view;
+      },
+      sortBy(coluna){
+          this.order.keys = coluna;
+          this.order.sort = this.order.sort == 'desc' ? 'asc' : 'desc';
+      }
+  },
+    computed: {
+        timesFiltered(){
+            let colecao = _.orderBy(this.times, this.order.keys, this.order.sort);
+
+            return _.filter(colecao, item => {
+                return item.nome.indexOf(this.filter) >= 0;
+            });
+        }
+    },
+  filters: {
+      saldo(time){
+          return time.gm - time.gs;
+      },
+      ucwords(value){
+          return value.charAt(0).toUpperCase() + value.slice(1);
+      }
+  }
+
+});
